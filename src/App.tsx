@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import moment from 'moment';
+
+import { Calendar } from './components/Calendar/Calendar';
+import { Header } from './components/Header/Header';
+import { StoreProvider } from './utils/context/StoreProvider';
+
+export const App = () => {
+
+  // const lastDayOfTheMonth = moment().endOf('month').endOf('week');
+
+  // const calendar = [];
+  // const day = firstDayOfTheMonth.clone()
+  // while (!day.isAfter(lastDayOfTheMonth)) {
+  //   calendar.push(day.clone())
+  //   day.add(1, 'day');
+  // }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+    <StoreProvider>
+      <div className='w-screen h-screen'>
+        <Header/>
+        <Calendar/>
+      </div>
+    </StoreProvider>
+  )
+};
