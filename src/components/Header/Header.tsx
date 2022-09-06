@@ -3,6 +3,7 @@ import React from 'react'
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import { AiOutlineArrowRight } from 'react-icons/ai';
+import {IoIosCalendar} from 'react-icons/io'
 
 import { useStore } from '../../utils/context/useStore';
 import { Modal } from '../Modal/Modal';
@@ -39,7 +40,9 @@ export const Header = () => {
             className='text-3xl cursor-pointer hover:text-white'
             onClick={() => nextMonthHandle()}
           ></AiOutlineArrowRight>
+          <IoIosCalendar className='text-3xl mx-2 cursor-pointer hover:text-white'>
 
+          </IoIosCalendar>
         </div>
         {modal && <Modal closeModal={() => setModal(false)}>
           <FormEvent/>

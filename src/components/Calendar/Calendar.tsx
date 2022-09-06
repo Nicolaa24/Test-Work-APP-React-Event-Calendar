@@ -6,9 +6,13 @@ import uuid  from 'react-uuid';
 import { useStore } from '../../utils/context/useStore';
 
 
-export const Calendar = () => {
+export interface Props {
+  children?: JSX.Element|JSX.Element[] | React.ReactNode
+}
 
-  const { currentDate } = useStore()
+export const Calendar: React.FC<Props> = () => {
+
+  const { currentDate, events } = useStore();
   
   const firstDayOfTheMonth = currentDate.clone().startOf('month').startOf('week');
   const oneDay = firstDayOfTheMonth.clone();
@@ -26,8 +30,8 @@ export const Calendar = () => {
   return (
     <div className='w-screen h-[80%] grid grid-cols-7 grid-row-6  '>
       {
-        [...Array(7)].map((day,index) => (
-          <div key = {uuid()}
+        [...Array(7)].map((day, index) => (
+          <div key={uuid()}
             className='h-[25px] flex justify-end mr-2 font-bold'>
             {moment().day(index + 1).format('ddd')}
           </div>)
@@ -41,20 +45,35 @@ export const Calendar = () => {
               ? 'min-w-[140px] min-h-[88px] border border-1 bg-slate-100 '
               : 'min-w-[140px] min-h-[88px] border border-1 '
             }>
-            <div
-              className={
-                isCurrentDay(day) && day.format('D')
-                  ? 'flex justify-end bg-green-300 '
-                  : 'flex justify-end'
-              }>
-              <div className={isCurrentMonth(day)
-                ?'m-3 text-black'
-                :'m-3 text-neutral-400 '
-              }>{day.format('DD')}</div>
+            <div className='flex flex-col h-full w-full'>
+              <div
+                className={
+                  isCurrentDay(day) && day.format('D')
+                    ? 'flex justify-end bg-green-300 h-[30px] '
+                    : 'flex justify-end'
+                }>
+                <div className={isCurrentMonth(day)
+                  ? 'mx-3 mt-2 text-center text-black'
+                  : 'mx-3 mt-2 text-center text-neutral-400 '
+                }>{day.format('DD')}
+                </div>
+              </div >
+              <div className='overflow-scroll '>
+                {events.filter(item => item.date >= day.format('X') && item.date <= day.clone().endOf('day').format('X')).map(item => (
+                  <div key={item.id}>
+                    <button className='cursor-pointer bg-slate-400 text-white w-full p-1 text-left text-base font-semibold'>
+                      {item.title}: {item.description}
+                    </button>
+
+                  </div>
+                ))}
+              </div>
+             
+                
             </div>
           </div>
         ))
       }
     </div>
   )
-}
+};
