@@ -12,9 +12,7 @@ import { FormEvent } from '../FormEvent/FormEvent';
 
 export const Header = () => {
 
-  const [modal, setModal] = React.useState(false);
-
-  const { prevMonthHandle,nextMonthHandle,currentDate} = useStore();
+  const { prevMonthHandle,nextMonthHandle,currentDate,modal,setModal} = useStore();
 
   return (
     <div className='bg-red-600 h-[20%] '>
@@ -45,7 +43,7 @@ export const Header = () => {
           </IoIosCalendar>
         </div>
         {modal && <Modal closeModal={() => setModal(false)}>
-          <FormEvent/>
+          <FormEvent mode='add' closeModal={() => setModal(false)}/>
         </Modal>}
       </div>
     </div>

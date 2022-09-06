@@ -1,8 +1,8 @@
 import React from 'react'
 
 interface Props {
-  children?: React.ReactNode;
-  closeModal: () => void
+  children: React.ReactNode;
+  closeModal?: () => void
 }
 
 export const Modal:React.FC<Props> = ({children,closeModal}) => {

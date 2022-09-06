@@ -4,6 +4,8 @@ import moment from 'moment';
 import uuid  from 'react-uuid';
 
 import { useStore } from '../../utils/context/useStore';
+import { FormEvent } from '../FormEvent/FormEvent';
+import { Modal } from '../Modal/Modal';
 
 
 export interface Props {
@@ -12,7 +14,7 @@ export interface Props {
 
 export const Calendar: React.FC<Props> = () => {
 
-  const { currentDate, events } = useStore();
+  const { currentDate, events, selectEventIdForEdit, eventIdForEdit,setModal } = useStore();
   
   const firstDayOfTheMonth = currentDate.clone().startOf('month').startOf('week');
   const oneDay = firstDayOfTheMonth.clone();
@@ -59,14 +61,28 @@ export const Calendar: React.FC<Props> = () => {
                 </div>
               </div >
               <div className='overflow-scroll '>
-                {events.filter(item => item.date >= day.format('X') && item.date <= day.clone().endOf('day').format('X')).map(item => (
-                  <div key={item.id}>
-                    <button className='cursor-pointer bg-slate-400 text-white w-full p-1 text-left text-base font-semibold'>
-                      {item.title}: {item.description}
-                    </button>
+                {events.filter(item => item.date >= day.format('X') && item.date <= day.clone().endOf('day').format('X')).map(item => {
+                 
+                  if (item.id === eventIdForEdit)
+                    return  <Modal  key={item.id}>
+                        <FormEvent
+                        editEvent={{ title: item.title, description: item.description, date: item.date }}
+                        mode='edit'
+                        event={item.id}
+                      />
+                    </Modal>
+                  return (
+                    <div key={item.id}>
+                      <button
+                        className='cursor-pointer bg-slate-400 text-white w-full p-1 text-left text-base font-semibold'
+                        onClick={() => selectEventIdForEdit(item.id)}
+                      >
+                        {item.title}: {item.description}
+                      </button>
 
-                  </div>
-                ))}
+                    </div>
+                  )
+                })}
               </div>
              
                 
