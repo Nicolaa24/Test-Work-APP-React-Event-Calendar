@@ -4,17 +4,12 @@ import moment from 'moment';
 import uuid  from 'react-uuid';
 
 import { useStore } from '../../utils/context/useStore';
-import { FormEvent } from '../FormEvent/FormEvent';
-import { Modal } from '../Modal/Modal';
+import { OneDay } from './OneDay';
 
 
-export interface Props {
-  children?: JSX.Element|JSX.Element[] | React.ReactNode
-}
+export const Calendar = () => {
 
-export const Calendar: React.FC<Props> = () => {
-
-  const { currentDate, events, selectEventIdForEdit, eventIdForEdit,setModal } = useStore();
+  const { currentDate } = useStore();
   
   const firstDayOfTheMonth = currentDate.clone().startOf('month').startOf('week');
   const oneDay = firstDayOfTheMonth.clone();
@@ -41,53 +36,7 @@ export const Calendar: React.FC<Props> = () => {
       }
       {
         daysOfTheMonth.map(day => (
-          <div
-            key={uuid()}
-            className={day.day() === 6 || day.day() === 0
-              ? 'min-w-[140px] min-h-[88px] border border-1 bg-slate-100 '
-              : 'min-w-[140px] min-h-[88px] border border-1 '
-            }>
-            <div className='flex flex-col h-full w-full'>
-              <div
-                className={
-                  isCurrentDay(day) && day.format('D')
-                    ? 'flex justify-end bg-green-300 h-[30px] '
-                    : 'flex justify-end'
-                }>
-                <div className={isCurrentMonth(day)
-                  ? 'mx-3 mt-2 text-center text-black'
-                  : 'mx-3 mt-2 text-center text-neutral-400 '
-                }>{day.format('DD')}
-                </div>
-              </div >
-              <div className='overflow-scroll '>
-                {events.filter(item => item.date >= day.format('X') && item.date <= day.clone().endOf('day').format('X')).map(item => {
-                 
-                  if (item.id === eventIdForEdit)
-                    return  <Modal  key={item.id}>
-                        <FormEvent
-                        editEvent={{ title: item.title, description: item.description, date: item.date }}
-                        mode='edit'
-                        event={item.id}
-                      />
-                    </Modal>
-                  return (
-                    <div key={item.id}>
-                      <button
-                        className='cursor-pointer bg-slate-400 text-white w-full p-1 text-left text-base font-semibold'
-                        onClick={() => selectEventIdForEdit(item.id)}
-                      >
-                        {item.title}: {item.description}
-                      </button>
-
-                    </div>
-                  )
-                })}
-              </div>
-             
-                
-            </div>
-          </div>
+          <OneDay isCurrentDay={isCurrentDay} isCurrentMonth={isCurrentMonth} day={day} key={uuid()}/>
         ))
       }
     </div>

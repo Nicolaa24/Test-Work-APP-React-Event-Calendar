@@ -14,7 +14,8 @@ export interface StoreContext {
   editEvent: ({ title, description, date }: Omit<Event, 'id'>) => void;
   deleteEvent: (id: Event['id']) => void;
   modal: boolean;
-  setModal: (elem:boolean) => void
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  datePickerHandler:(value:Date) => void
 }
 
 export const StoreContext = React.createContext<StoreContext>({
@@ -29,5 +30,5 @@ export const StoreContext = React.createContext<StoreContext>({
   deleteEvent: () => { },
   modal: false,
   setModal: () => { },
-  
-} as StoreContext)
+  datePickerHandler: () => { }
+} as StoreContext);

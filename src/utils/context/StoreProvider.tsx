@@ -10,22 +10,21 @@ interface Props {
   children:React.ReactNode
 }
 
-const allEvents: Event[] = [
-  { id: uuid(), title: 'test', description: "test", date: '1662434870' },
-  { id: uuid(), title: 'second test', description: "second test", date: '1662434170' },
-  { id: uuid(), title: 'second test', description: "second test", date: '1662434170' },
-  { id: uuid(), title: 'second test', description: "second test", date: '1662348470' },
-  { id: uuid(), title: 'second test', description: "second test", date: '1665545270' },
-];
+const allEvents: Event[] = [];
 
 const storedEvents: Event[] = JSON.parse(localStorage.getItem('Events') ?? JSON.stringify(allEvents));
+const storedDate = moment(JSON.parse(localStorage.getItem('Date') ?? JSON.stringify(moment())) )
 
 export const StoreProvider: React.FC<Props> = ({ children }) => {
 
   const [modal, setModal] = React.useState(false);
-  const [currentDate, setCurrentDate] = React.useState(moment());
+  const [currentDate, setCurrentDate] = React.useState( storedDate  );
   const [events, setEvents] = React.useState(storedEvents);
   const [eventIdForEdit, setEventIdForEdit] = React.useState<Event['id'] | null>(null);
+
+  const datePickerHandler = (value:Date) => {
+    setCurrentDate(moment(value))
+  }
 
   const selectEventIdForEdit = (id:Event['id']) => {
     setEventIdForEdit(id)
@@ -33,7 +32,6 @@ export const StoreProvider: React.FC<Props> = ({ children }) => {
 
   const addEvent = ({title,description,date}:Omit<Event, 'id'>) => {
     setEvents([...events, { id: uuid(), title, description, date }])
-    
   }
 
   const deleteEvent = (id:Event['id']) => {
@@ -57,7 +55,15 @@ export const StoreProvider: React.FC<Props> = ({ children }) => {
 
   React.useEffect(() => {
     localStorage.setItem('Events', JSON.stringify(events))
-  },[events])
+  }, [events])
+
+  React.useEffect(() => {
+      if (!localStorage.getItem('Date')) {
+       setCurrentDate(moment())
+     }
+     localStorage.setItem('Date', JSON.stringify(currentDate))
+
+  }, [currentDate])
 
   const value = {
     currentDate,
@@ -71,6 +77,7 @@ export const StoreProvider: React.FC<Props> = ({ children }) => {
     deleteEvent,
     modal,
     setModal,
+    datePickerHandler,
   }
 
   return (
