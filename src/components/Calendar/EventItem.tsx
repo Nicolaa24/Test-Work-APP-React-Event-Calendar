@@ -9,12 +9,14 @@ interface Props {
 
 export const EventItem: React.FC<Props> = ({ event }) => {
 
-  const { selectEventIdForEdit } = useStore()
+  const eventBgStyle = ['cursor-pointer text-white w-full p-1 text-left text-base font-semibold', `bg-[${event.color}]`];
+
+  const { selectEventIdForEdit } = useStore();
 
   return (
     <div>
       <button
-        className='cursor-pointer bg-slate-400 text-white w-full p-1 text-left text-base font-semibold'
+        className={eventBgStyle.join(' ')}
         onClick={() => selectEventIdForEdit(event.id)}
       >
         {event.title}: {event.description}

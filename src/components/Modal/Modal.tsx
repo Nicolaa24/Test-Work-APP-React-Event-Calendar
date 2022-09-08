@@ -1,15 +1,11 @@
 import React from 'react'
 
-import { useStore } from '../../utils/context/useStore';
-
 interface Props {
   children: React.ReactNode;
   closeModal: () => void
 }
 
 export const Modal: React.FC<Props> = ({ children,closeModal}) => {
-  
-  const {setModal} = useStore()
 
   return (
     <>

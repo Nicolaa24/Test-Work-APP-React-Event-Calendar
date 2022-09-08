@@ -1,7 +1,8 @@
 import React from 'react'
 
 import moment from 'moment';
-import {RiDeleteBin7Line} from 'react-icons/ri'
+import { RiDeleteBin7Line } from 'react-icons/ri';
+import { CirclePicker } from 'react-color';
 
 import { useStore } from '../../utils/context/useStore';
 
@@ -33,7 +34,7 @@ export const FormEvent: React.FC<FormEvent> = (props) => {
 
   const [event, setEvent] = React.useState(isEdit ? props.editEvent : DEFAULT_EVENT);
 
-  const { addEvent, editEvent, deleteEvent } = useStore();
+  const { addEvent, editEvent, deleteEvent, eventColor, setEventColor } = useStore();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -69,13 +70,24 @@ export const FormEvent: React.FC<FormEvent> = (props) => {
           name='description'
           onChange={onChange} />
       </div>
-      <div className='m-3 p-2  text-center'>
+      <div className='mt-3  mx-3 p-2  text-center'>
         <input placeholder='Date'
           className='p-2 w-[80%]'
           value={event.date}
           type='date'
           onChange={(e) => setEvent({ ...event, date: moment(e.target.value).clone().format('X') })}
         />
+      </div>
+      <div className='  p-2 text-center w-[100%] m-auto'>
+        <div className='mb-3 text-2xl font-bold'>Colors :</div>
+        <div className='flex justify-center '>
+          <CirclePicker
+          color={eventColor}
+          onChange={(color) => {
+          setEventColor(color.hex)
+          }}
+        />
+        </div>
       </div>
       <div className='flex flew-row items-center text-center w-[60%] m-auto'>
         <div className='flex p-1 text-center items-center'>

@@ -21,7 +21,8 @@ export const StoreProvider: React.FC<Props> = ({ children }) => {
   const [currentDate, setCurrentDate] = React.useState( storedDate  );
   const [events, setEvents] = React.useState(storedEvents);
   const [eventIdForEdit, setEventIdForEdit] = React.useState<Event['id'] | null>(null);
-
+  const [eventColor, setEventColor] = React.useState('#607d8b');
+  
   const datePickerHandler = (value:Date) => {
     setCurrentDate(moment(value))
   }
@@ -30,15 +31,15 @@ export const StoreProvider: React.FC<Props> = ({ children }) => {
     setEventIdForEdit(id)
   }
 
-  const addEvent = ({title,description,date}:Omit<Event, 'id'>) => {
-    setEvents([...events, { id: uuid(), title, description, date }])
+  const addEvent = ({title,description,date}:Omit<Event, 'id' | 'color'>) => {
+    setEvents([...events, { id: uuid(), title, description, date, color:eventColor }])
   }
 
   const deleteEvent = (id:Event['id']) => {
     setEvents(events.filter(event => event.id !==id))
   }
 
-  const editEvent = ({title,description,date}:Omit<Event, 'id'>) => {
+  const editEvent = ({title,description,date}:Omit<Event, 'id' | 'color'>) => {
     setEvents(events.map(event => event.id === eventIdForEdit
       ? { ...event, title, description, date }
       : event))
@@ -58,12 +59,12 @@ export const StoreProvider: React.FC<Props> = ({ children }) => {
   }, [events])
 
   React.useEffect(() => {
-      if (!localStorage.getItem('Date')) {
-       setCurrentDate(moment())
-     }
-     localStorage.setItem('Date', JSON.stringify(currentDate))
+    if (!localStorage.getItem('Date')) {
+      setCurrentDate(moment())
+    }
+    localStorage.setItem('Date', JSON.stringify(currentDate))
 
-  }, [currentDate])
+  }, [currentDate]);
 
   const value = {
     currentDate,
@@ -78,6 +79,8 @@ export const StoreProvider: React.FC<Props> = ({ children }) => {
     modal,
     setModal,
     datePickerHandler,
+    eventColor,
+    setEventColor,
   }
 
   return (

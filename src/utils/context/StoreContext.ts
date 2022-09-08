@@ -8,14 +8,16 @@ export interface StoreContext {
   prevMonthHandle: () => void;
   nextMonthHandle: () => void;
   events: Event[];
-  addEvent: ({ title, description, date }: Omit<Event, 'id'>) => void;
+  addEvent: ({ title, description, date }: Omit<Event, 'id' | 'color'>) => void;
   selectEventIdForEdit: (id: Event['id']) => void;
   eventIdForEdit: Event['id'] | null;
-  editEvent: ({ title, description, date }: Omit<Event, 'id'>) => void;
+  editEvent: ({ title, description, date }: Omit<Event, 'id' | 'color'>) => void;
   deleteEvent: (id: Event['id']) => void;
   modal: boolean;
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
-  datePickerHandler:(value:Date) => void
+  datePickerHandler: (value: Date) => void;
+  eventColor: string;
+  setEventColor: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const StoreContext = React.createContext<StoreContext>({
@@ -30,5 +32,7 @@ export const StoreContext = React.createContext<StoreContext>({
   deleteEvent: () => { },
   modal: false,
   setModal: () => { },
-  datePickerHandler: () => { }
+  datePickerHandler: () => { },
+  eventColor: '#607d8b',
+  setEventColor: () => { }
 } as StoreContext);
