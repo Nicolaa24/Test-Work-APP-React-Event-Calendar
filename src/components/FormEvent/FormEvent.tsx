@@ -21,7 +21,7 @@ interface EditModeProps {
   event: string
 }
 
-type FormEvent = AddModeProps | EditModeProps;
+type FormEventType = AddModeProps | EditModeProps;
 
 const DEFAULT_EVENT = {
   title: '',
@@ -29,7 +29,7 @@ const DEFAULT_EVENT = {
   date: ''
 }
 
-export const FormEvent: React.FC<FormEvent> = (props) => {
+export const FormEvent: React.FC<FormEventType> = (props) => {
   const isEdit = props.mode === 'edit';
 
   const [event, setEvent] = React.useState(isEdit ? props.editEvent : DEFAULT_EVENT);
@@ -41,7 +41,7 @@ export const FormEvent: React.FC<FormEvent> = (props) => {
     setEvent({ ...event, [name]: value })
   }
 
-  const addEventhandler = () => {
+  const addEventHandler = () => {
     const eventItem = { title: event.title, description: event.description, date: event.date };
     if (isEdit) {
       return editEvent(eventItem)
@@ -101,7 +101,7 @@ export const FormEvent: React.FC<FormEvent> = (props) => {
           {event.description === '' || event.title === '' || event.date === ''
             ? <button disabled className='bg-slate-400 w-full text-center m-auto mb-5 rounded-xl p-2 cursor-not-allowed'>Save</button>
             : <button className='bg-green-600  text-white w-[50%] text-center  mb-5 rounded-xl p-2'
-              onClick={addEventhandler}
+              onClick={addEventHandler}
             >
               Save
             </button>

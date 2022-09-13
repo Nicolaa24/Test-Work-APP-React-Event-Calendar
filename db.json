@@ -1,0 +1,6 @@
+{
+  "events": [
+    {"id": 1, "title": "Read book", "description": "Read my favorite book", "date": 1662025143,"color": "#607d8b"},
+     {"id": 2, "title": " walk", "description": "Walk with dog", "date": 1663666743,"color": "#607d8b"}
+  ]
+}

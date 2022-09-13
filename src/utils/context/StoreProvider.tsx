@@ -5,6 +5,7 @@ import uuid from 'react-uuid';
 
 import { StoreContext } from './StoreContext';
 import { Event } from '../../interface';
+import { getAllEvents } from '../services/getAllEvents';
 
 interface Props {
   children:React.ReactNode
@@ -65,6 +66,12 @@ export const StoreProvider: React.FC<Props> = ({ children }) => {
     localStorage.setItem('Date', JSON.stringify(currentDate))
 
   }, [currentDate]);
+
+ //Server realization
+  
+  React.useEffect(() => {
+    getAllEvents(1661765943, 1665308343);
+  },[currentDate])
 
   const value = {
     currentDate,

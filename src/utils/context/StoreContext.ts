@@ -3,7 +3,7 @@ import React from "react";
 import moment from 'moment'
 import { Event } from "../../interface";
 
-export interface StoreContext {
+export interface IStoreContext {
   currentDate: moment.Moment;
   prevMonthHandle: () => void;
   nextMonthHandle: () => void;
@@ -20,7 +20,7 @@ export interface StoreContext {
   setEventColor: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const StoreContext = React.createContext<StoreContext>({
+export const StoreContext = React.createContext<IStoreContext>({
   currentDate: moment(),
   prevMonthHandle: () => { },
   nextMonthHandle: () => { },
@@ -35,4 +35,4 @@ export const StoreContext = React.createContext<StoreContext>({
   datePickerHandler: () => { },
   eventColor: '#607d8b',
   setEventColor: () => { }
-} as StoreContext);
+} as IStoreContext);
